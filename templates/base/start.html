@@ -15,7 +15,7 @@
                     </div>
                     <div id="collapseActiveEvents" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingActiveEvents">
                         <ul class="list-group">
-                            {% for active_event in active_events %}
+                            {% for active_event in events.active_instances %}
                                 <li class="list-group-item">
                                     <a href="{{ active_event.get_absolute_detail_url }}">{{ active_event.name }}</a>
                                     <div class="pull-right">
@@ -41,7 +41,7 @@
                     </div>
                     <div id="collapseInactiveEvents" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingInactiveEvents">
                         <ul class="list-group">
-                            {% for inactive_event in inactive_events %}
+                            {% for inactive_event in events.inactive_instances %}
                                 <li class="list-group-item">
                                     <a href="{{ inactive_event.get_absolute_detail_url }}">{{ inactive_event.name }}</a>
                                     <div class="pull-right">

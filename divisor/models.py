@@ -100,6 +100,7 @@ class Participant(models.Model):
     class Meta:
         verbose_name = _('Participant')
         verbose_name_plural = _('Participants')
+        unique_together = ('user', 'event')
 
     def __unicode__(self):
         return self.get_name()
@@ -338,11 +339,21 @@ class Bill(models.Model):
         return True
 
 
+class EventQuerySet(models.QuerySet):
+    def active_instances(self):
+        return self.filter(is_active=True)
+
+    def inactive_instances(self):
+        return self.filter(is_active=False)
+
+
 class Event(models.Model):
     name = models.CharField(max_length=150, verbose_name=_('Name'))
     start = models.DateField(verbose_name=_('Start-date'))
     end = models.DateField(blank=True, null=True, verbose_name=_('End-date'))
     is_active = models.BooleanField(default=True)
+
+    objects = EventQuerySet.as_manager()
 
     def __unicode__(self):
         return self.get_description()

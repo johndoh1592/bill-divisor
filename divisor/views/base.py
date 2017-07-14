@@ -1,25 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render
+from django.views.generic import ListView
+
+from ..models import Event
 
 
-def start(request):
+class StartView(ListView):
+    context_object_name = 'events'
+    template_name = 'base/start.html'
 
-    active_events = []
-    inactive_events = []
-
-    if request.user.participant_set.count() > 0:
-        participants = request.user.participant_set.all()
-        for participant in participants:
-            if participant.event.is_active:
-                active_events.append(participant.event)
-            else:
-                inactive_events.append(participant.event)
-
-    context = {
-        'active_events': active_events,
-        'inactive_events': inactive_events,
-    }
-
-    return render(request, 'base/start.html', context)
+    def get_queryset(self):
+        participants = self.request.user.participant_set
+        if participants.exists():
+            return Event.objects.filter(event_participants__in=participants.all())
+        return Event.objects.none()
