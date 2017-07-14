@@ -1,10 +1,13 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
-from django.core.exceptions import ObjectDoesNotExist
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-from divisor.forms import EventForm
-from divisor.models import Event, Participant
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+
+from ..forms import EventForm
+from ..models import Event, Participant
+
 
 def create_event(request):
 
@@ -39,6 +42,7 @@ def create_event(request):
 
     return render(request, 'event/event_create_form.html', context)
 
+
 def edit_event(request, event_id):
 
     form_action = reverse('edit_event', args=[event_id])
@@ -62,11 +66,13 @@ def edit_event(request, event_id):
 
     return render(request, 'event/event_edit_form.html', context)
 
+
 def delete_event(request, event_id):
     event = Event.objects.get(id=event_id)
     event.delete()
 
     return HttpResponseRedirect(reverse('home'))
+
 
 def detail_event(request, event_id):
 

@@ -1,9 +1,12 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-from divisor.forms import ConsumingGroupFrom
-from divisor.models import Event, ConsumingGroup, Participant
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+
+from ..forms import ConsumingGroupFrom
+from ..models import ConsumingGroup, Event, Participant
 
 
 def create_consuming_group(request, event_id):
@@ -31,6 +34,7 @@ def create_consuming_group(request, event_id):
 
     return render(request, 'consuming_group/consuming_group_create_form.html', context)
 
+
 def edit_consuming_group(request, event_id, consuming_group_id):
 
     form_action = reverse('edit_consuming_group', args=[event_id, consuming_group_id])
@@ -54,11 +58,13 @@ def edit_consuming_group(request, event_id, consuming_group_id):
 
     return render(request, 'consuming_group/consuming_group_edit_form.html', context)
 
+
 def delete_consuming_group(request, event_id, consuming_group_id):
     consuming_group = ConsumingGroup.objects.get(id=consuming_group_id)
     consuming_group.delete()
 
     return HttpResponseRedirect(reverse('detail_event', args=[event_id]))
+
 
 def delete_consuming_group_participant(request, event_id, consuming_group_id):
 
@@ -67,8 +73,7 @@ def delete_consuming_group_participant(request, event_id, consuming_group_id):
     try:
         sub_group_id = request.GET['sub_group']
         participant_id = request.GET['participant']
-    except:
-        # TODO google right exception
+    except KeyError:
         return response
 
     try:
@@ -92,6 +97,7 @@ def delete_consuming_group_participant(request, event_id, consuming_group_id):
     consuming_group.save()
 
     return response
+
 
 def detail_consuming_group(request, event_id, consuming_group_id):
 

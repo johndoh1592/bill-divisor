@@ -1,12 +1,15 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import re
-from copy import deepcopy
 
 from django import forms
-from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.translation import ugettext as _
 
-from .models import Event, Participant, ConsumingGroup, Bill, BillConsumingGroupPosition, BillParticipant
+
+from .models import Bill, BillConsumingGroupPosition, BillParticipant, ConsumingGroup, Event, Participant
 
 
 class EventForm(forms.ModelForm):
@@ -22,31 +25,31 @@ class ParticipantForm(forms.Form):
     user = None
 
     username = forms.CharField(
-        label=_(u'Username'),
+        label=_('Username'),
         max_length=30,
-        error_messages={'required': _(u'Please enter your desired username.')},
+        error_messages={'required': _('Please enter your desired username.')},
     )
 
     password = forms.CharField(
-        label=_(u'Password'),
+        label=_('Password'),
         widget=forms.PasswordInput(render_value=False),
-        error_messages={'required': _(u'Please enter a password.')},
+        error_messages={'required': _('Please enter a password.')},
     )
 
     password_check = forms.CharField(
-        label=_(u'Password'),
+        label=_('Password'),
         widget=forms.PasswordInput(render_value=False),
-        error_messages={'required': _(u'Please enter a password.')},
+        error_messages={'required': _('Please enter a password.')},
     )
 
     display_name = forms.CharField(
-        label=_(u'Display name'),
+        label=_('Display name'),
         max_length=255,
         required=False,
     )
 
     email = forms.EmailField(
-        label=_(u'Email'),
+        label=_('Email'),
         required=False,
     )
 
@@ -65,11 +68,11 @@ class ParticipantForm(forms.Form):
     def clean_username(self):
 
         if not re.search(r'^[\w.@+-]+$', self.cleaned_data['username']):
-            raise forms.ValidationError(_(u'Enter a valid username. This value may contain only letters, numbers and @/'
-                                          u'./+/-/_ characters.'))
+            raise forms.ValidationError(_('Enter a valid username. This value may contain only letters, numbers and @/'
+                                          './+/-/_ characters.'))
         try:
-            user = User.objects.get(username=self.cleaned_data['username'])
-            raise forms.ValidationError(_(u'This username already exists, please login or choose another one'))
+            User.objects.get(username=self.cleaned_data['username'])
+            raise forms.ValidationError(_('This username already exists, please login or choose another one'))
         except ObjectDoesNotExist:
             pass
 
@@ -77,7 +80,7 @@ class ParticipantForm(forms.Form):
 
     def clean_password_check(self):
         if self.cleaned_data['password'] != self.cleaned_data['password_check']:
-            raise forms.ValidationError(_(u'Passwords don\'t match '))
+            raise forms.ValidationError(_('Passwords don\'t match '))
 
     def save(self):
         try:
@@ -143,11 +146,11 @@ class ConsumingGroupFrom(forms.ModelForm):
 
         for participant in self.cleaned_data.get('participants_25', []):
             if participant in self.cleaned_data.get('participants_50', []):
-                raise forms.ValidationError(participant.get_name() + u' ' + _(u'is also in participants 50%'))
+                raise forms.ValidationError(participant.get_name() + ' ' + _('is also in participants 50%'))
             if participant in self.cleaned_data.get('participants_75', []):
-                raise forms.ValidationError(participant.get_name() + u' ' + _(u'is also in participants 75%'))
+                raise forms.ValidationError(participant.get_name() + ' ' + _('is also in participants 75%'))
             if participant in self.cleaned_data.get('participants_100', []):
-                raise forms.ValidationError(participant.get_name() + u' ' + _(u'is also in participants 100%'))
+                raise forms.ValidationError(participant.get_name() + ' ' + _('is also in participants 100%'))
 
         return self.cleaned_data['participants_25']
 
@@ -155,11 +158,11 @@ class ConsumingGroupFrom(forms.ModelForm):
 
         for participant in self.cleaned_data.get('participants_50', []):
             if participant in self.cleaned_data.get('participants_25', []):
-                raise forms.ValidationError(participant.get_name() + u' ' + _(u'is also in participants 25%'))
+                raise forms.ValidationError(participant.get_name() + ' ' + _('is also in participants 25%'))
             if participant in self.cleaned_data.get('participants_75', []):
-                raise forms.ValidationError(participant.get_name() + u' ' + _(u'is also in participants 75%'))
+                raise forms.ValidationError(participant.get_name() + ' ' + _('is also in participants 75%'))
             if participant in self.cleaned_data.get('participants_100', []):
-                raise forms.ValidationError(participant.get_name() + u' ' + _(u'is also in participants 100%'))
+                raise forms.ValidationError(participant.get_name() + ' ' + _('is also in participants 100%'))
 
         return self.cleaned_data['participants_50']
 
@@ -167,11 +170,11 @@ class ConsumingGroupFrom(forms.ModelForm):
 
         for participant in self.cleaned_data.get('participants_75', []):
             if participant in self.cleaned_data.get('participants_25', []):
-                raise forms.ValidationError(participant.get_name() + u' ' + _(u'is also in participants 25%'))
+                raise forms.ValidationError(participant.get_name() + ' ' + _('is also in participants 25%'))
             if participant in self.cleaned_data.get('participants_50', []):
-                raise forms.ValidationError(participant.get_name() + u' ' + _(u'is also in participants 50%'))
+                raise forms.ValidationError(participant.get_name() + ' ' + _('is also in participants 50%'))
             if participant in self.cleaned_data.get('participants_100', []):
-                raise forms.ValidationError(participant.get_name() + u' ' + _(u'is also in participants 100%'))
+                raise forms.ValidationError(participant.get_name() + ' ' + _('is also in participants 100%'))
 
         return self.cleaned_data['participants_75']
 
@@ -179,11 +182,11 @@ class ConsumingGroupFrom(forms.ModelForm):
 
         for participant in self.cleaned_data.get('participants_100', []):
             if participant in self.cleaned_data.get('participants_25', []):
-                raise forms.ValidationError(participant.get_name() + u' ' + _(u'is also in participants 25%'))
+                raise forms.ValidationError(participant.get_name() + ' ' + _('is also in participants 25%'))
             if participant in self.cleaned_data.get('participants_50', []):
-                raise forms.ValidationError(participant.get_name() + u' ' + _(u'is also in participants 50%'))
+                raise forms.ValidationError(participant.get_name() + ' ' + _('is also in participants 50%'))
             if participant in self.cleaned_data.get('participants_75', []):
-                raise forms.ValidationError(participant.get_name() + u' ' + _(u'is also in participants 75%'))
+                raise forms.ValidationError(participant.get_name() + ' ' + _('is also in participants 75%'))
 
         return self.cleaned_data['participants_100']
 

@@ -1,7 +1,9 @@
-from django.shortcuts import render
-from divisor.models import Participant
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-# Create your views here.
+from django.shortcuts import render
+
+
 def start(request):
 
     active_events = []
@@ -21,4 +23,3 @@ def start(request):
     }
 
     return render(request, 'base/start.html', context)
-

@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
 import datetime
 from decimal import Decimal
-from django.utils.timezone import utc
+
 from django.conf import settings
+from django.db import migrations, models
+from django.utils.timezone import utc
 
 
 class Migration(migrations.Migration):
@@ -20,8 +21,16 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=255, verbose_name='Name')),
-                ('date', models.DateField(default=datetime.datetime(2015, 8, 23, 16, 3, 31, 579761, tzinfo=utc), verbose_name='Date')),
-                ('sum_total', models.DecimalField(default=Decimal('0'), verbose_name='Global positions', max_digits=16, decimal_places=3)),
+                ('date', models.DateField(
+                    default=datetime.datetime(2015, 8, 23, 16, 3, 31, 579761, tzinfo=utc),
+                    verbose_name='Date'
+                )),
+                ('sum_total', models.DecimalField(
+                    default=Decimal('0'),
+                    verbose_name='Global positions',
+                    max_digits=16,
+                    decimal_places=3
+                )),
                 ('is_active', models.BooleanField(default=True)),
             ],
         ),
@@ -37,8 +46,18 @@ class Migration(migrations.Migration):
             name='BillParticipant',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('payed_amount', models.DecimalField(default=Decimal('0'), verbose_name='Payed amount', max_digits=16, decimal_places=3)),
-                ('own_amount', models.DecimalField(default=Decimal('0'), verbose_name='Own amount', max_digits=16, decimal_places=3)),
+                ('payed_amount', models.DecimalField(
+                    default=Decimal('0'),
+                    verbose_name='Payed amount',
+                    max_digits=16,
+                    decimal_places=3
+                )),
+                ('own_amount', models.DecimalField(
+                    default=Decimal('0'),
+                    verbose_name='Own amount',
+                    max_digits=16,
+                    decimal_places=3
+                )),
                 ('is_done', models.BooleanField(default=False, editable=False)),
                 ('bill', models.ForeignKey(related_name='bill_participants', editable=False, to='divisor.Bill')),
             ],
@@ -82,22 +101,42 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='consuminggroup',
             name='participants_100',
-            field=models.ManyToManyField(related_name='participant_consuming_group_100_percent', verbose_name='100% participants', to='divisor.Participant', blank=True),
+            field=models.ManyToManyField(
+                related_name='participant_consuming_group_100_percent',
+                verbose_name='100% participants',
+                to='divisor.Participant',
+                blank=True
+            ),
         ),
         migrations.AddField(
             model_name='consuminggroup',
             name='participants_25',
-            field=models.ManyToManyField(related_name='participant_consuming_group_25_percent', verbose_name='25% participants', to='divisor.Participant', blank=True),
+            field=models.ManyToManyField(
+                related_name='participant_consuming_group_25_percent',
+                verbose_name='25% participants',
+                to='divisor.Participant',
+                blank=True
+            ),
         ),
         migrations.AddField(
             model_name='consuminggroup',
             name='participants_50',
-            field=models.ManyToManyField(related_name='participant_consuming_group_50_percent', verbose_name='50% participants', to='divisor.Participant', blank=True),
+            field=models.ManyToManyField(
+                related_name='participant_consuming_group_50_percent',
+                verbose_name='50% participants',
+                to='divisor.Participant',
+                blank=True
+            ),
         ),
         migrations.AddField(
             model_name='consuminggroup',
             name='participants_75',
-            field=models.ManyToManyField(related_name='participant_consuming_group_75_percent', verbose_name='75% participants', to='divisor.Participant', blank=True),
+            field=models.ManyToManyField(
+                related_name='participant_consuming_group_75_percent',
+                verbose_name='75% participants',
+                to='divisor.Participant',
+                blank=True
+            ),
         ),
         migrations.AddField(
             model_name='billparticipant',

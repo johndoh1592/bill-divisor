@@ -1,9 +1,12 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-from divisor.forms import BillForm, BillParticipantForm, BillPositionForm
-from divisor.models import Event, Bill, BillConsumingGroupPosition, BillParticipant
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+
+from ..forms import BillForm, BillParticipantForm, BillPositionForm
+from ..models import Bill, BillConsumingGroupPosition, BillParticipant, Event
 
 
 def create_bill(request, event_id):
@@ -81,6 +84,7 @@ def detail_bill(request, event_id, bill_id):
 
     return render(request, 'bill/bill_detail.html', context)
 
+
 def create_bill_participant(request, event_id, bill_id):
 
     form_action = reverse('create_bill_participant', args=[event_id, bill_id])
@@ -96,7 +100,9 @@ def create_bill_participant(request, event_id, bill_id):
             )
             bill_participant.bill = Bill.objects.get(id=bill_id)
             bill_participant.save()
-            return HttpResponseRedirect(reverse('detail_bill_participant', args=[event_id, bill_id, bill_participant.id]))
+            return HttpResponseRedirect(
+                reverse('detail_bill_participant', args=[event_id, bill_id, bill_participant.id])
+            )
     else:
         bill_participant_form = BillParticipantForm(event_id=event_id)
 
@@ -107,6 +113,7 @@ def create_bill_participant(request, event_id, bill_id):
     }
 
     return render(request, 'bill/bill_participant_create_form.html', context)
+
 
 def edit_bill_participant(request, event_id, bill_id, bill_participant_id):
 
@@ -119,7 +126,9 @@ def edit_bill_participant(request, event_id, bill_id, bill_participant_id):
         bill_participant_form = BillParticipantForm(request.POST, instance=bill_participant, event_id=event_id)
         if bill_participant_form.is_valid():
             bill_participant_form.save()
-            return HttpResponseRedirect(reverse('detail_bill_participant', args=[event_id, bill_id,  bill_participant_id]))
+            return HttpResponseRedirect(
+                reverse('detail_bill_participant', args=[event_id, bill_id, bill_participant_id])
+            )
     else:
         bill_participant_form = BillParticipantForm(instance=bill_participant, event_id=event_id)
 
@@ -153,6 +162,7 @@ def detail_bill_participant(request, event_id, bill_id, bill_participant_id):
 
     return render(request, 'bill/bill_participant_detail.html', context)
 
+
 def create_bill_position(request, event_id, bill_id):
 
     form_action = reverse('create_bill_position', args=[event_id, bill_id])
@@ -179,6 +189,7 @@ def create_bill_position(request, event_id, bill_id):
 
     return render(request, 'bill/bill_position_create_form.html', context)
 
+
 def edit_bill_position(request, event_id, bill_id, bill_position_id):
 
     form_action = reverse('edit_bill_position', args=[event_id, bill_id, bill_position_id])
@@ -190,7 +201,7 @@ def edit_bill_position(request, event_id, bill_id, bill_position_id):
         bill_position_form = BillPositionForm(request.POST, instance=bill_position, event_id=event_id)
         if bill_position.is_valid():
             bill_position_form.save()
-            return HttpResponseRedirect(reverse('detail_bill_position', args=[event_id, bill_id,  bill_position_id]))
+            return HttpResponseRedirect(reverse('detail_bill_position', args=[event_id, bill_id, bill_position_id]))
     else:
         bill_position_form = BillPositionForm(instance=bill_position, event_id=event_id)
 
@@ -202,11 +213,13 @@ def edit_bill_position(request, event_id, bill_id, bill_position_id):
 
     return render(request, 'bill/bill_position_edit_form.html', context)
 
+
 def delete_bill_position(request, event_id, bill_id, bill_position_id):
     bill_position = BillConsumingGroupPosition.objects.get(id=bill_position_id)
     bill_position.delete()
 
     return HttpResponseRedirect(reverse('detail_bill', args=[event_id, bill_id]))
+
 
 def detail_bill_position(request, event_id, bill_id, bill_position_id):
 

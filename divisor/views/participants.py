@@ -1,9 +1,13 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-from divisor.forms import ParticipantForm
-from divisor.models import Event, Participant
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+
+from ..forms import ParticipantForm
+from ..models import Event, Participant
+
 
 def create_participant(request, event_id):
 
@@ -25,6 +29,7 @@ def create_participant(request, event_id):
     }
 
     return render(request, 'participant/participant_create_form.html', context)
+
 
 def edit_participant(request, event_id, participant_id):
 
@@ -49,11 +54,13 @@ def edit_participant(request, event_id, participant_id):
 
     return render(request, 'participant/participant_edit_form.html', context)
 
+
 def delete_participant(request, event_id, participant_id):
     participant = Participant.objects.get(id=participant_id)
     participant.delete()
 
     return HttpResponseRedirect(reverse('detail_event', args=[event_id]))
+
 
 def detail_participant(request, event_id, participant_id):
 
