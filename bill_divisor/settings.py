@@ -100,6 +100,25 @@ STATIC_URL = '/static/'
 
 LOGIN_URL = '/login/'
 
+LOGIN_REDIRECT_URL = '/'
+
+LOGOUT_REDIRECT_URL = LOGIN_URL
+
 LOGIN_EXEMPT_URLS = [
     'register/'
+]
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
 ]

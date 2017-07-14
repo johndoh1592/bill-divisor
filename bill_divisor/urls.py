@@ -5,19 +5,19 @@ from divisor import views as divisor_views
 
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.auth.views import LogoutView
 
 from . import views
 
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', views.home, name='home'),
+    url(r'^$', divisor_views.start, name='home'),
 
 
-    url(r'^login/$', views.login, name='login'),
-    url(r'^logout/$', views.logout, name='logout'),
-    url(r'^register/$', views.register, name='register'),
-    url(r'^start/$', divisor_views.start, name='start'),
+    url(r'^login/$', views.LoginView.as_view(), name='login'),
+    url(r'^logout/$', LogoutView.as_view(), name='logout'),
+    url(r'^register/$', views.RegisterView.as_view(), name='register'),
 
 
     url(r'^events/(?P<event_id>\d+)/$', divisor_views.detail_event, name='detail_event'),

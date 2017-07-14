@@ -1,50 +1,34 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.contrib.auth import logout as user_logout
-from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.views import LoginView as DjangoLoginView, SuccessURLAllowedHostsMixin
+from django.core.urlresolvers import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.debug import sensitive_post_parameters
+from django.views.generic.edit import CreateView
 
-from .forms import LoginForm, RegisterForm
-
-
-def home(request):
-    if request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('start'))
-
-    return HttpResponseRedirect(reverse('login'))
+from .forms import RegisterForm
 
 
-def login(request):
-    if request.method == 'POST':
-        login_form = LoginForm(request.POST)
-        if login_form.is_valid():
-            login_form.login(request)
-            return HttpResponseRedirect(reverse('start'))
-    else:
-        login_form = LoginForm()
-    context = {
-        'login_form': login_form,
-    }
-    return render(request, 'base/login.html', context)
+class LoginView(DjangoLoginView):
+    template_name = 'base/login.html'
 
 
-def register(request):
-    if request.method == 'POST':
-        register_form = RegisterForm(request.POST)
-        if register_form.is_valid():
-            register_form.save(request)
-            return HttpResponseRedirect(reverse('start'))
-    else:
-        register_form = RegisterForm()
-    context = {
-        'register_form': register_form,
-    }
-    return render(request, 'base/register.html', context)
+class RegisterView(SuccessURLAllowedHostsMixin, CreateView):
+    form_class = RegisterForm
+    success_url = reverse_lazy('home')
+    template_name = 'base/register.html'
 
+    @method_decorator(sensitive_post_parameters())
+    @method_decorator(csrf_protect)
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        return super(RegisterView, self).dispatch(request, *args, **kwargs)
 
-def logout(request):
-    user_logout(request)
-
-    return HttpResponseRedirect(reverse('home'))
+    def form_valid(self, form):
+        response = super(RegisterView, self).form_valid(form)
+        auth_login(self.request, form.get_user(self.request))
+        return response
