@@ -4,10 +4,10 @@ from __future__ import unicode_literals
 import re
 
 from django import forms
-from django.utils.translation import ugettext as _
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.translation import ugettext as _
 
 
 def user_credentials(username, password):
@@ -37,7 +37,7 @@ class LoginForm(forms.Form):
         label=_('Password'),
         required=True,
         widget=forms.PasswordInput(render_value=False),
-        # error_messages={'required': _('Please enter a password.')},
+        error_messages={'required': _('Please enter a password.')},
     )
 
     user = None
@@ -54,7 +54,6 @@ class LoginForm(forms.Form):
     def login(self, request):
         if self.is_valid():
             login(request, self.user)
-
 
 
 class RegisterForm(forms.Form):
@@ -87,7 +86,7 @@ class RegisterForm(forms.Form):
             raise forms.ValidationError(_('Enter a valid username. This value may contain only letters, numbers and '
                                           '@/./+/-/_ characters.'))
         try:
-            user = User.objects.get(username=self.cleaned_data['username'])
+            User.objects.get(username=self.cleaned_data['username'])
             raise forms.ValidationError(_('This username already exists, please login or choose another one'))
         except ObjectDoesNotExist:
             pass

@@ -1,7 +1,10 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.contrib.auth import logout as user_logout
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 
 from .forms import LoginForm, RegisterForm
 
@@ -11,6 +14,7 @@ def home(request):
         return HttpResponseRedirect(reverse('start'))
 
     return HttpResponseRedirect(reverse('login'))
+
 
 def login(request):
     if request.method == 'POST':
@@ -25,6 +29,7 @@ def login(request):
     }
     return render(request, 'base/login.html', context)
 
+
 def register(request):
     if request.method == 'POST':
         register_form = RegisterForm(request.POST)
@@ -37,6 +42,7 @@ def register(request):
         'register_form': register_form,
     }
     return render(request, 'base/register.html', context)
+
 
 def logout(request):
     user_logout(request)
