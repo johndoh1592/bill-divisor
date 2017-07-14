@@ -1,0 +1,60 @@
+{% extends "global/base_content.html" %}
+{% load i18n %}
+{% block base_content_title %}{{ bill_participant.get_name }}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Event" %}: {{ event.get_name }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Bill" %}: {{ bill.get_name }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Consuming Group" %}: {{ bill_position.consuming_group.get_name }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Value" %}: {{ bill_position.value }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Partial value 25%" %}: {{ bill_position.partial_value_25 }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Partial value 50%" %}: {{ bill_position.partial_value_50 }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Partial value 75%" %}: {{ bill_position.partial_value_75 }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Partial value 100%" %}: {{ bill_position.partial_value_100 }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Is done" %}: {{ bill.get_is_done }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="pull-right">
+                <a href="{{ bill.get_absolute_detail_url }}" class="btn btn-warning" role="button">{% trans "Back" %}</a>
+                <a href="#billPosition{{ bill_position.id }}Modal" data-toggle="modal" data-target="#billPosition{{ bill_position.id }}Modal" class="btn btn-danger" role="button">{% trans "Delete bill position" %}</a>
+                <a href="{{ bill_participant.get_absolute_edit_url }}" class="btn btn-success" role="button">{% trans "Edit bill position" %}</a>
+            </div>
+        </div>
+    </div>
+    {% include "bill/_includes/remove_bill_position_modal.html" with bill_position=bill_position %}
+{% endblock %}

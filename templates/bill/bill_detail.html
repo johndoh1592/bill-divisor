@@ -1,0 +1,110 @@
+{% extends "global/base_content.html" %}
+{% load i18n %}
+{% block base_content_title %}{{ bill.get_name }}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Event" %}: {{ event.get_name }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Sum" %}: {{ bill.sum_total }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Sum without positions" %}: {{ bill.global_positions }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Partial sum" %}: {{ bill.partial_global_value }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Is active" %}: {{ bill.get_is_active }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingBillParticipants">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseBillParticipants" aria-expanded="false" aria-controls="collapseBillParticipants">
+                                {% trans "Participants" %}
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseBillParticipants" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingBillParticipants">
+                        <ul class="list-group">
+                            {% for bill_participant in bill_participants %}
+                                <li class="list-group-item">
+                                    <a href="{{ bill_participant.get_absolute_detail_url }}">{{ bill_participant.get_description }}</a>
+                                    <div class="pull-right">
+                                        <a href="{{ bill_participant.get_absolute_edit_url }}">{% trans "edit" %}</a>
+                                        <span>&nbsp;&nbsp;</span>
+                                        <a href="#billParticipant{{ bill_participant.id }}Modal" data-toggle="modal" data-target="#billParticipant{{ bill_participant.id }}Modal">
+                                            {% trans "delete" %}
+                                        </a>
+                                    </div>
+                                </li>
+                                {% include "bill/_includes/remove_bill_participant_modal.html" with bill_participant=bill_participant %}
+                            {% endfor %}
+                        </ul>
+                        <div class="panel-footer">
+                            <a href="{% url 'create_bill_participant' event_id=event.id bill_id=bill.id %}" class="btn btn-success" role="button">{% trans "Add bill participant" %}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingBillPositions">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseBillPositions" aria-expanded="false" aria-controls="collapseBillPositions">
+                                {% trans "Extra positions" %}
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseBillPositions" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingBillPositions">
+                        <ul class="list-group">
+                            {% for bill_position in bill_positions %}
+                                <li class="list-group-item">
+                                    <a href="{{ bill_position.get_absolute_detail_url }}">{{ bill_position.get_description }}</a>
+                                    <div class="pull-right">
+                                        <a href="{{ bill_position.get_absolute_edit_url }}">{% trans "edit" %}</a>
+                                        <span>&nbsp;&nbsp;</span>
+                                        <a href="#billPosition{{ bill_position.id }}Modal" data-toggle="modal" data-target="#billPosition{{ bill_position.id }}Modal">
+                                            {% trans "delete" %}
+                                        </a>
+                                    </div>
+                                </li>
+                                {% include "bill/_includes/remove_bill_position_modal.html" with bill_postion=bill_position %}
+                            {% endfor %}
+                        </ul>
+                        <div class="panel-footer">
+                            <a  href="{% url 'create_bill_position' event_id=event.id bill_id=bill.id %}" class="btn btn-success" role="button">{% trans "Add extra position" %}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="pull-right">
+                <a href="{{ event.get_absolute_detail_url }}" class="btn btn-warning" role="button">{% trans "Back" %}</a>
+                <a href="#bill{{ bill.id }}Modal" data-toggle="modal" data-target="#bill{{ bill.id }}Modal" class="btn btn-danger" role="button">{% trans "Delete bill" %}</a>
+                <a href="{{ bill.get_absolute_edit_url }}" class="btn btn-success" role="button">{% trans "Edit bill" %}</a>
+            </div>
+        </div>
+    </div>
+    {% include "bill/_includes/remove_bill_modal.html" with bill=bill %}
+{% endblock %}

@@ -1,0 +1,10 @@
+# compiled python files
+*.py[co]
+
+# editor temp files
+*.sw[po]
+
+.cache
+.idea
+tmp/*
+*.sqlite3

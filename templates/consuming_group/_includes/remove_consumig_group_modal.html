@@ -1,0 +1,19 @@
+{% load i18n %}
+<div class="modal fade" id="consuming_group{{ consuming_group.id }}Modal" tabindex="-1" role="dialog" aria-labelledby="consuming_group{{ consuming_group.id }}ModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="consuming_group{{ consuming_group.id }}ModalLabel">{% trans "Delete" %}: {{ consuming_group.get_name }}?</h4>
+            </div>
+            <div class="modal-body">
+                <p>{% trans "Do you really want to delete" %}&nbsp;{{ consuming_group.get_description }}&nbsp;{% trans "from" %}&nbsp;{{ consuming_group.event.get_name }}?</p>
+                <p class="text-danger">{% trans "Warning all participants, and bill-positions which have this group will be disconnected from it!" %}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">{% trans "Cancel" %}</button>
+                <a href="{{ consuming_group.get_absolute_remove_url }}" type="button" class="btn btn-danger">{% trans "Delete" %}</a>
+            </div>
+        </div>
+    </div>
+</div>

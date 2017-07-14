@@ -1,0 +1,18 @@
+{% load i18n %}
+<div class="modal fade" id="consuming_groupParticipant{{ participant.id }}{{ consuming_group_type.type }}Modal" tabindex="-1" role="dialog" aria-labelledby="consuming_groupParticipant{{ participant.id }}{{ consuming_group_type.type }}ModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="consuming_group{{ consuming_group.id }}{{ consuming_group_type.type }}ModalLabel">{% trans "Delete" %}: {{ participant.get_name }}?</h4>
+            </div>
+            <div class="modal-body">
+                <p>{% trans "Do you really want to delete" %}&nbsp;{{ participant.get_name }}&nbsp;{% trans "from" %}&nbsp;{{ consuming_group.get_name }}&nbsp;{{ consuming_group_type.name }}?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">{% trans "Cancel" %}</button>
+                <a href="{{ consuming_group.get_absolute_remove_participant_from_consuming_group_url }}?sub_group={{ consuming_group_type.type }}&participant={{ participant.id }}" type="button" class="btn btn-danger">{% trans "Delete" %}</a>
+            </div>
+        </div>
+    </div>
+</div>

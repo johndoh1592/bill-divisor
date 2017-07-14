@@ -1,0 +1,21 @@
+{% extends "global/base.html" %}
+{% load i18n %}
+{% block base_content %}
+<div class="vertical-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-offset-11 col-sm-1">
+                <a href="{% url "logout" %}">{% trans "Log out" %}</a>
+            </div>
+        </div>
+        <div class="jumbotron">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3>{% block base_content_title %}{% endblock %}</h3>
+                </div>
+            </div>
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

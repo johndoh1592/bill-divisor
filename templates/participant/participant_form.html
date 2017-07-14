@@ -1,0 +1,64 @@
+{% extends "global/base.html" %}
+{% load widget_tweaks i18n %}
+{% block base_content %}
+<div class="vertical-center">
+    <div class="container">
+        <div class="row">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{% block participant_form_title %}{% endblock %}</h3>
+                </div>
+                <form class="form-horizontal" role="form" method="post" action="{{ form_action }}">
+                    <div class="panel-body">
+                        {% csrf_token %}
+                        {{ participant_form.non_field_errors }}
+                        <div class="form-group">
+                            {{ participant_form.username.errors }}
+                            <label class="control-label col-sm-2" for="{{ participant_form.username.id_for_label }}">{% trans "Username" %}:</label>
+                            <div class="col-sm-10">
+                                {% render_field participant_form.username class+="form-control" placeholder="Enter username" type="text" %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ participant_form.password.errors }}
+                            <label class="control-label col-sm-2" for="{{ participant_form.password.id_for_label }}">{% trans "Password" %}:</label>
+                            <div class="col-sm-10">
+                                {% render_field participant_form.password class+="form-control" placeholder="Enter password" type="password" %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ participant_form.password_check.errors }}
+                            <label class="control-label col-sm-2" for="{{ participant_form.password_check.id_for_label }}">{% trans "Password" %}:</label>
+                            <div class="col-sm-10">
+                                {% render_field participant_form.password_check class+="form-control" placeholder="Retype password" type="password" %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ participant_form.display_name.errors }}
+                            <label class="control-label col-sm-2" for="{{ participant_form.display_name.id_for_label }}">{% trans "Display name" %}:</label>
+                            <div class="col-sm-10">
+                                {% render_field participant_form.display_name class+="form-control" placeholder="Enter display name" type="text" %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ participant_form.email.errors }}
+                            <label class="control-label col-sm-2" for="{{ participant_form.email.id_for_label }}">{% trans "Email" %}:</label>
+                            <div class="col-sm-10">
+                                {% render_field participant_form.email class+="form-control" placeholder="Enter email" type="email" %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="pull-right">
+                                    <a href="{{ back_button }}" class="btn btn-danger" role="button">{% trans "Cancel" %}</a>
+                                    <button type="submit" class="btn btn-success">{% trans "Submit" %}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

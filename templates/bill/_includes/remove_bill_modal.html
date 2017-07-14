@@ -1,0 +1,19 @@
+{% load i18n %}
+<div class="modal fade" id="bill{{ bill.id }}Modal" tabindex="-1" role="dialog" aria-labelledby="bill{{ bill.id }}ModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="bill{{ bill.id }}ModalLabel">{% trans "Delete" %}: {{ bill.get_name }}?</h4>
+            </div>
+            <div class="modal-body">
+                <p>{% trans "Do you really want to delete" %}&nbsp;{{ bill.get_description }}&nbsp;{% trans "from" %}&nbsp;{{ bill.event.get_name }}?</p>
+                <p class="text-danger">{% trans "Warning all bill-participants and bill-positions will be delted!" %}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">{% trans "Cancel" %}</button>
+                <a href="{{ bill.get_absolute_remove_url }}" type="button" class="btn btn-danger">{% trans "Delete" %}</a>
+            </div>
+        </div>
+    </div>
+</div>

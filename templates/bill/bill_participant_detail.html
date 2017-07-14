@@ -1,0 +1,45 @@
+{% extends "global/base_content.html" %}
+{% load i18n %}
+{% block base_content_title %}{{ bill_participant.get_name }}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Event" %}: {{ event.get_name }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Bill" %}: {{ bill.get_name }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Payed amount" %}: {{ bill_participant.payed_amount }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Own amount" %}: {{ bill_participant.own_amount }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Payable amount" %}: {{ bill_participant.payable_amount }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium;">{% trans "Is done" %}: {{ bill_participant.get_is_done }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="pull-right">
+                <a href="{{ bill.get_absolute_detail_url }}" class="btn btn-warning" role="button">{% trans "Back" %}</a>
+                <a href="#billParticipant{{ bill_participant.id }}Modal" data-toggle="modal" data-target="#billParticipant{{ bill_participant.id }}Modal" class="btn btn-danger" role="button">{% trans "Delete bill participant" %}</a>
+                <a href="{{ bill_participant.get_absolute_edit_url }}" class="btn btn-success" role="button">{% trans "Edit bill participant" %}</a>
+            </div>
+        </div>
+    </div>
+    {% include "bill/_includes/remove_bill_participant_modal.html" with bill_participant=bill_participant %}
+{% endblock %}

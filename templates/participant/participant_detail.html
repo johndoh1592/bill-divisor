@@ -1,0 +1,52 @@
+{% extends 'global/base_content.html' %}
+{% load i18n %}
+{% block base_content_title %}{{ participant.get_name }}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-muted" style="font-size: medium">{% trans "Event: " %}: {{ event.get_name }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingConsumingGroups">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseConsumingGroups" aria-expanded="true" aria-controls="collapseConsumingGroups">
+                                {% trans "Consuming groups" %}
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseConsumingGroups" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingConsumingGroups">
+                        <ul class="list-group">
+                            {% for consuming_group in consuming_groups %}
+                                <li class="list-group-item">
+                                    <a href="{{ consuming_group.get_absolute_detail_url }}">{{ consuming_group.get_name }}</a>
+                                    <div class="pull-right">
+                                        <a href="{{ consuming_group.get_absolute_edit_url }}">{% trans "edit" %}</a>
+                                        <span>&nbsp;&nbsp;</span>
+                                        <a href="#consuming_group{{ consuming_group.id }}Modal" data-toggle="modal" data-target="#consuming_group{{ consuming_group.id }}Modal">
+                                            {% trans "delete" %}
+                                        </a>
+                                    </div>
+                                </li>
+                                {% include "consuming_group/_includes/remove_consumig_group_modal.html" with consuming_group=consuming_group %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="pull-right">
+                <a href="{{ event.get_absolute_detail_url }}" class="btn btn-warning" role="button">{% trans "Back" %}</a>
+                <a href="participant{{ participant.id }}Modal" data-toggle="modal" data-target="#event{{ event.id }}Modal" class="btn btn-danger" role="button">{% trans "Delete event" %}</a>
+                <a href="{{ participant.get_absolute_edit_url }}" class="btn btn-success" role="button">{% trans "Edit participant" %}</a>
+            </div>
+        </div>
+    </div>
+    {% include "event/_includes/remove_event_modal.html" with event=event %}
+{% endblock %}

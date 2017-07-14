@@ -1,0 +1,71 @@
+{% extends "global/base_content.html" %}
+{% load widget_tweaks i18n %}
+{% block base_content_title %}{% trans "Create or edit an event" %}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingActiveEvents">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseActiveEvents" aria-expanded="true" aria-controls="collapseActiveEvents">
+                                {% trans "Active events" %}
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseActiveEvents" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingActiveEvents">
+                        <ul class="list-group">
+                            {% for active_event in active_events %}
+                                <li class="list-group-item">
+                                    <a href="{{ active_event.get_absolute_detail_url }}">{{ active_event.name }}</a>
+                                    <div class="pull-right">
+                                        <a href="{{ active_event.get_absolute_edit_url }}">{% trans "edit" %}</a>
+                                        <span>&nbsp;&nbsp;</span>
+                                        <a href="#event{{ active_event.id }}Modal" data-toggle="modal" data-target="#event{{ active_event.id }}Modal">
+                                            {% trans "delete" %}
+                                        </a>
+                                    </div>
+                                </li>
+                                {% include "event/_includes/remove_event_modal.html" with event=active_event %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingInactiveEvents">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseInactiveEvents" aria-expanded="false" aria-controls="collapseInactiveEvents">
+                                {% trans "Inactive Events" %}
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseInactiveEvents" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingInactiveEvents">
+                        <ul class="list-group">
+                            {% for inactive_event in inactive_events %}
+                                <li class="list-group-item">
+                                    <a href="{{ inactive_event.get_absolute_detail_url }}">{{ inactive_event.name }}</a>
+                                    <div class="pull-right">
+                                        <a href="{{ inactive_event.get_absolute_edit_url }}">{% trans "edit" %}</a>
+                                        <span>&nbsp;&nbsp;</span>
+                                        <a href="#event{{ inactive_event.id }}Modal" data-toggle="modal" data-target="#event{{ inactive_event.id }}Modal">
+                                            {% trans "delete" %}
+                                        </a>
+                                    </div>
+                                </li>
+                                {% include "event/_includes/remove_event_modal.html" with event=inactive_event %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="pull-right">
+                <a href="{% url "logout" %}" class="btn btn-danger" role="button">{% trans "Log out" %}</a>
+                <a href="{% url "create_event" %}" class="btn btn-success" role="button">{% trans "Create a new event" %}</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

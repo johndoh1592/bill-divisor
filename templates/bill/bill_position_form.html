@@ -1,0 +1,43 @@
+{% extends "global/base.html" %}
+{% load widget_tweaks i18n %}
+{% block base_content %}
+<div class="vertical-center">
+    <div class="container">
+        <div class="row">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{% block bill_position_form_title %}{% endblock %}</h3>
+                </div>
+                <form class="form-horizontal" role="form" method="post" action="{{ form_action }}">
+                    <div class="panel-body">
+                        {% csrf_token %}
+                        {{ bill_position_form.non_field_errors }}
+                        <div class="form-group">
+                            {{ bill_position_form.value.errors }}
+                            <label class="control-label col-sm-2" for="{{ bill_position_form.value.id_for_label }}">{% trans "Value" %}:</label>
+                            <div class="col-sm-10">
+                                {% render_field bill_position_form.value class+="form-control" placeholder="Format: 123.456" %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ bill_position_form.consuming_group.errors }}
+                            <label class="control-label col-sm-2" for="{{ bill_position_form.consuming_group.id_for_label }}">{% trans "Consuming group" %}:</label>
+                            <div class="col-sm-10">
+                                {% render_field bill_position_form.consuming_group class+="form-control" placeholder="Consuming group" %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="pull-right">
+                                    <a href="{{ back_button }}" class="btn btn-danger" role="button">{% trans "Cancel" %}</a>
+                                    <button type="submit" class="btn btn-success">{% trans "Submit" %}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
