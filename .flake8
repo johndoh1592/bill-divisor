@@ -1,0 +1,14 @@
+[flake8]
+max-line-length = 120
+enable-extensions =
+    E121,
+    E126,
+    E133,
+    E226,
+    E241,
+    E242,
+    E704,
+    I10,
+    N8,
+    W503
+import-order-style = smarkets
