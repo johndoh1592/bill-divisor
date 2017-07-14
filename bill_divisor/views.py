@@ -13,6 +13,7 @@ from django.views.generic.edit import CreateView
 from .forms import RegisterForm
 
 
+# noinspection PyClassHasNoInit
 class LoginView(DjangoLoginView):
     template_name = 'base/login.html'
 

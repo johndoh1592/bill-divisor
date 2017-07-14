@@ -1,3 +1,4 @@
 {% extends 'event/event_form.html' %}
 {% load i18n %}
-{% block event_form_title %}{% trans "Create event" %}{% endblock %}
+{% block event_form_title %}{% trans "Create event" %}{% endblock event_form_title %}
+{% block back_url %}{% url 'event-list' %}{% endblock back_url %}

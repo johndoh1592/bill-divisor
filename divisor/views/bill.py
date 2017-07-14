@@ -12,7 +12,7 @@ from ..models import Bill, BillConsumingGroupPosition, BillParticipant, Event
 def create_bill(request, event_id):
 
     form_action = reverse('create_bill', args=[event_id])
-    back_button = reverse('detail_event', args=[event_id])
+    back_button = reverse('event-detail', kwargs={'pk': event_id})
 
     if request.method == 'POST':
         bill_form = BillForm(request.POST)
@@ -65,7 +65,7 @@ def delete_bill(request, event_id, bill_id):
     bill = Bill.objects.get(id=bill_id)
     bill.delete()
 
-    return HttpResponseRedirect(reverse('detail_event', args=[event_id]))
+    return HttpResponseRedirect(reverse('event-detail', kwargs={'pk': event_id}))
 
 
 def detail_bill(request, event_id, bill_id):

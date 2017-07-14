@@ -12,7 +12,7 @@ from ..models import ConsumingGroup, Event, Participant
 def create_consuming_group(request, event_id):
 
     form_action = reverse('create_consuming_group', args=[event_id])
-    back_button = reverse('detail_event', args=[event_id])
+    back_button = reverse('event-detail', kwargs={'pk': event_id})
 
     if request.method == 'POST':
         consuming_group_form = ConsumingGroupFrom(request.POST, event_id=event_id)
@@ -63,7 +63,7 @@ def delete_consuming_group(request, event_id, consuming_group_id):
     consuming_group = ConsumingGroup.objects.get(id=consuming_group_id)
     consuming_group.delete()
 
-    return HttpResponseRedirect(reverse('detail_event', args=[event_id]))
+    return HttpResponseRedirect(reverse('event-detail', kwargs={'pk': event_id}))
 
 
 def delete_consuming_group_participant(request, event_id, consuming_group_id):

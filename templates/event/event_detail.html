@@ -1,6 +1,6 @@
 {% extends "global/base_content.html" %}
 {% load i18n %}
-{% block base_content_title %}{{ event.name }}{% endblock %}
+{% block base_content_title %}{{ object.name }}{% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-sm-12">
@@ -30,7 +30,7 @@
                             {% endfor %}
                         </ul>
                         <div class="panel-footer">
-                            <a href="{% url 'create_consuming_group' event_id=event.id %}" class="btn btn-success" role="button">{% trans "Create a new consuming group" %}</a>
+                            <a href="{% url 'create_consuming_group' event_id=object.id %}" class="btn btn-success" role="button">{% trans "Create a new consuming group" %}</a>
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                             {% endfor %}
                         </ul>
                         <div class="panel-footer">
-                            <a  href="{% url 'create_participant' event_id=event.id %}" class="btn btn-success" role="button">{% trans "Create a new participant" %}</a>
+                            <a  href="{% url 'create_participant' event_id=object.id %}" class="btn btn-success" role="button">{% trans "Create a new participant" %}</a>
                         </div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                             {% endfor %}
                         </ul>
                         <div class="panel-footer">
-                            <a  href="{% url 'create_bill' event_id=event.id %}" class="btn btn-success" role="button">{% trans "Create a new bill" %}</a>
+                            <a  href="{% url 'create_bill' event_id=object.id %}" class="btn btn-success" role="button">{% trans "Create a new bill" %}</a>
                         </div>
                     </div>
                 </div>
@@ -124,9 +124,9 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="pull-right">
-                <a href="{% url 'home' %}" class="btn btn-warning" role="button">{% trans "Back" %}</a>
-                <a href="#event{{ event.id }}Modal" data-toggle="modal" data-target="#event{{ event.id }}Modal" class="btn btn-danger" role="button">{% trans "Delete event" %}</a>
-                <a href="{{ event.get_absolute_edit_url }}" class="btn btn-success" role="button">{% trans "Edit event" %}</a>
+                <a href="{% url 'event-list' %}" class="btn btn-warning" role="button">{% trans "Back" %}</a>
+                <a href="#event{{ object.id }}Modal" data-toggle="modal" data-target="#event{{ object.id }}Modal" class="btn btn-danger" role="button">{% trans "Delete event" %}</a>
+                <a href="{{ object.get_absolute_edit_url }}" class="btn btn-success" role="button">{% trans "Edit event" %}</a>
             </div>
         </div>
     </div>

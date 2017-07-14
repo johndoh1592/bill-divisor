@@ -12,13 +12,13 @@ from ..models import Event, Participant
 def create_participant(request, event_id):
 
     form_action = reverse('create_participant', args=[event_id])
-    back_button = reverse('detail_event', args=[event_id])
+    back_button = reverse('event-detail', kwargs={'pk': event_id})
 
     if request.method == 'POST':
         participant_form = ParticipantForm(request.POST, event_id=event_id)
         if participant_form.is_valid():
             participant_form.save()
-            return HttpResponseRedirect(reverse('detail_event', args=[event_id]))
+            return HttpResponseRedirect(reverse('event-detail', kwargs={'pk': event_id}))
     else:
         participant_form = ParticipantForm(event_id=event_id)
 
@@ -59,7 +59,7 @@ def delete_participant(request, event_id, participant_id):
     participant = Participant.objects.get(id=participant_id)
     participant.delete()
 
-    return HttpResponseRedirect(reverse('detail_event', args=[event_id]))
+    return HttpResponseRedirect(reverse('event-detail', kwargs={'pk': event_id}))
 
 
 def detail_participant(request, event_id, participant_id):

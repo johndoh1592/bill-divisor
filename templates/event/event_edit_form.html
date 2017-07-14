@@ -1,3 +1,4 @@
 {% extends 'event/event_form.html' %}
 {% load i18n %}
-{% block event_form_title %}{% trans "Edit event" %}: {{ event.get_name }}{% endblock %}
+{% block event_form_title %}{% trans "Edit event" %}: {{ object.get_name }}{% endblock event_form_title %}
+{% block back_url %}{{ object.get_absolute_url }}{% endblock back_url %}

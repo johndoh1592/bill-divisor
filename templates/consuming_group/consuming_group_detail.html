@@ -138,7 +138,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="pull-right">
-                <a href="{{ event.get_absolute_detail_url }}" class="btn btn-warning" role="button">{% trans "Back" %}</a>
+                <a href="{{ event.get_absolute_url }}" class="btn btn-warning" role="button">{% trans "Back" %}</a>
                 <a href="#consuming_group{{ consuming_group.id }}Modal" data-toggle="modal" data-target="#consuming_group{{ consuming_group.id }}Modal" class="btn btn-danger" role="button">{% trans "Delete consuming group" %}</a>
                 <a href="{{ consuming_group.get_absolute_edit_url }}" class="btn btn-success" role="button">{% trans "Edit consuming group" %}</a>
             </div>

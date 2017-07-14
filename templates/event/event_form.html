@@ -8,35 +8,35 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">{% block event_form_title %}{% endblock %}</h3>
                 </div>
-                <form class="form-horizontal" role="form" method="post" action="{{ form_action }}">
+                <form class="form-horizontal" role="form" method="post">
                     <div class="panel-body">
                         {% csrf_token %}
-                        {{ event_form.non_field_errors }}
+                        {{ form.non_field_errors }}
                         <div class="form-group">
-                            {{ event_form.name.errors }}
-                            <label class="control-label col-sm-2" for="{{ event_form.name.id_for_label }}">{% trans "Name" %}:</label>
+                            {{ form.name.errors }}
+                            <label class="control-label col-sm-2" for="{{ form.name.id_for_label }}">{% trans "Name" %}:</label>
                             <div class="col-sm-10">
-                                {% render_field event_form.name class+="form-control" placeholder="Enter event name" type="text" %}
+                                {% render_field form.name class+="form-control" placeholder="Enter event name" type="text" %}
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ event_form.start.errors }}
-                            <label class="control-label col-sm-2" for="{{ event_form.start.id_for_label }}">{% trans "Start date" %}:</label>
+                            {{ form.start.errors }}
+                            <label class="control-label col-sm-2" for="{{ form.start.id_for_label }}">{% trans "Start date" %}:</label>
                             <div class="col-sm-10">
-                                {% render_field event_form.start class+="form-control" placeholder="Format: 2015-12-31" %}
+                                {% render_field form.start class+="form-control" placeholder="Format: 2015-12-31" %}
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ event_form.end.errors }}
-                            <label class="control-label col-sm-2" for="{{ event_form.end.id_for_label }}">{% trans "End date" %}:</label>
+                            {{ form.end.errors }}
+                            <label class="control-label col-sm-2" for="{{ form.end.id_for_label }}">{% trans "End date" %}:</label>
                             <div class="col-sm-10">
-                                {% render_field event_form.end class+="form-control" placeholder="Format: 2015-12-31" %}
+                                {% render_field form.end class+="form-control" placeholder="Format: 2015-12-31" %}
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12">
                                 <div class="pull-right">
-                                    <a href="{{ back_button }}" class="btn btn-danger" role="button">{% trans "Cancel" %}</a>
+                                    <a href="{% block back_url %}{% endblock %}" class="btn btn-danger" role="button">{% trans "Cancel" %}</a>
                                     <button type="submit" class="btn btn-success">{% trans "Submit" %}</button>
                                 </div>
                             </div>

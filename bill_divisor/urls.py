@@ -6,13 +6,15 @@ from divisor import views as divisor_views
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.views import LogoutView
+from django.core.urlresolvers import reverse_lazy
+from django.views.generic import RedirectView
 
 from . import views
 
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', divisor_views.StartView.as_view(), name='home'),
+    url(r'^$', RedirectView.as_view(url=reverse_lazy('event-list'), permanent=False), name='home'),
 
 
     url(r'^login/$', views.LoginView.as_view(), name='login'),
@@ -20,10 +22,11 @@ urlpatterns = [
     url(r'^register/$', views.RegisterView.as_view(), name='register'),
 
 
-    url(r'^events/(?P<event_id>\d+)/$', divisor_views.detail_event, name='detail_event'),
-    url(r'^events/create/$', divisor_views.create_event, name='create_event'),
-    url(r'^events/(?P<event_id>\d+)/edit/', divisor_views.edit_event, name='edit_event'),
-    url(r'^events/(?P<event_id>\d+)/delete/', divisor_views.delete_event, name='remove_event'),
+    url(r'^events/$', divisor_views.EventListView.as_view(), name='event-list'),
+    url(r'^events/add/$', divisor_views.EventCreateView.as_view(), name='event-add'),
+    url(r'^events/(?P<pk>[0-9]+)/$', divisor_views.EventDetailView.as_view(), name='event-detail'),
+    url(r'^events/(?P<pk>[0-9]+)/edit/$', divisor_views.EventUpdateView.as_view(), name='event-update'),
+    url(r'^events/(?P<pk>[0-9]+)/delete/$', divisor_views.EventDeleteView.as_view(), name='event-delete'),
 
 
     url(r'events/(?P<event_id>\d+)/consuming-groups/(?P<consuming_group_id>\d+)/$',

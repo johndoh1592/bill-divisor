@@ -17,7 +17,7 @@
                         <ul class="list-group">
                             {% for active_event in events.active_instances %}
                                 <li class="list-group-item">
-                                    <a href="{{ active_event.get_absolute_detail_url }}">{{ active_event.name }}</a>
+                                    <a href="{{ active_event.get_absolute_url }}">{{ active_event.name }}</a>
                                     <div class="pull-right">
                                         <a href="{{ active_event.get_absolute_edit_url }}">{% trans "edit" %}</a>
                                         <span>&nbsp;&nbsp;</span>
@@ -43,7 +43,7 @@
                         <ul class="list-group">
                             {% for inactive_event in events.inactive_instances %}
                                 <li class="list-group-item">
-                                    <a href="{{ inactive_event.get_absolute_detail_url }}">{{ inactive_event.name }}</a>
+                                    <a href="{{ inactive_event.get_absolute_url }}">{{ inactive_event.name }}</a>
                                     <div class="pull-right">
                                         <a href="{{ inactive_event.get_absolute_edit_url }}">{% trans "edit" %}</a>
                                         <span>&nbsp;&nbsp;</span>
@@ -64,7 +64,7 @@
         <div class="col-sm-12">
             <div class="pull-right">
                 <a href="{% url "logout" %}" class="btn btn-danger" role="button">{% trans "Log out" %}</a>
-                <a href="{% url "create_event" %}" class="btn btn-success" role="button">{% trans "Create a new event" %}</a>
+                <a href="{% url "event-add" %}" class="btn btn-success" role="button">{% trans "Create a new event" %}</a>
             </div>
         </div>
     </div>

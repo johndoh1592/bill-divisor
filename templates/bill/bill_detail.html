@@ -100,7 +100,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="pull-right">
-                <a href="{{ event.get_absolute_detail_url }}" class="btn btn-warning" role="button">{% trans "Back" %}</a>
+                <a href="{{ event.get_absolute_url }}" class="btn btn-warning" role="button">{% trans "Back" %}</a>
                 <a href="#bill{{ bill.id }}Modal" data-toggle="modal" data-target="#bill{{ bill.id }}Modal" class="btn btn-danger" role="button">{% trans "Delete bill" %}</a>
                 <a href="{{ bill.get_absolute_edit_url }}" class="btn btn-success" role="button">{% trans "Edit bill" %}</a>
             </div>

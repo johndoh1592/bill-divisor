@@ -5,6 +5,7 @@ from decimal import Decimal, DivisionByZero, InvalidOperation, ROUND_HALF_UP
 
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.template.defaultfilters import date
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 
@@ -260,6 +261,14 @@ class BillParticipant(models.Model):
         return reverse('remove_bill_participant', args=[self.bill.event_id, self.bill_id, self.id])
 
 
+class StateQuerySet(models.QuerySet):
+    def active_instances(self):
+        return self.filter(is_active=True)
+
+    def inactive_instances(self):
+        return self.filter(is_active=False)
+
+
 class Bill(models.Model):
     name = models.CharField(max_length=255, verbose_name=_('Name'))
     date = models.DateField(verbose_name=_('Date'), default=timezone.now)
@@ -267,6 +276,8 @@ class Bill(models.Model):
                                     default=Decimal('0'))
     event = models.ForeignKey('divisor.Event', editable=False, related_name='event_bills')
     is_active = models.BooleanField(default=True)
+
+    objects = StateQuerySet.as_manager()
 
     @property
     def consuming_groups_positions_sum(self):
@@ -339,21 +350,13 @@ class Bill(models.Model):
         return True
 
 
-class EventQuerySet(models.QuerySet):
-    def active_instances(self):
-        return self.filter(is_active=True)
-
-    def inactive_instances(self):
-        return self.filter(is_active=False)
-
-
 class Event(models.Model):
     name = models.CharField(max_length=150, verbose_name=_('Name'))
     start = models.DateField(verbose_name=_('Start-date'))
     end = models.DateField(blank=True, null=True, verbose_name=_('End-date'))
     is_active = models.BooleanField(default=True)
 
-    objects = EventQuerySet.as_manager()
+    objects = StateQuerySet.as_manager()
 
     def __unicode__(self):
         return self.get_description()
@@ -362,18 +365,22 @@ class Event(models.Model):
         return self.name
 
     def get_description(self):
-        return self.get_name() + ' ' + unicode(self.start) + ' - ' + unicode(self.end)
+        return '{name} {start}{end}'.format(
+            name=self.get_name(),
+            start=date(self.start, 'SHORT_DATE_FORMAT'),
+            end=' - {}'.format(date(self.end, 'SHORT_DATE_FORMAT')) if self.end else ''
+        )
 
     def get_is_active(self):
         if self.is_active:
             return _('Yes')
         return _('No')
 
-    def get_absolute_detail_url(self):
-        return reverse('detail_event', args=[self.id])
+    def get_absolute_url(self):
+        return reverse('event-detail', kwargs={'pk': self.pk})
 
     def get_absolute_edit_url(self):
-        return reverse('edit_event', args=[self.id])
+        return reverse('event-update', args=[self.id])
 
     def get_absolute_remove_url(self):
-        return reverse('remove_event', args=[self.id])
+        return reverse('event-delete', args=[self.id])

@@ -1,93 +1,59 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.core.urlresolvers import reverse_lazy
+from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
 
-from ..forms import EventForm
 from ..models import Event, Participant
 
 
-def create_event(request):
+class EventCreateView(CreateView):
+    model = Event
+    fields = ['name', 'start', 'end']
+    template_name = 'event/event_create_form.html'
 
-    form_action = reverse('create_event')
-    back_button = reverse('home')
-
-    if request.method == 'POST':
-        event_form = EventForm(request.POST)
-        if event_form.is_valid():
-            event = Event(
-                name=event_form.cleaned_data['name'],
-                start=event_form.cleaned_data['start'],
-                end=event_form.cleaned_data['end'],
-            )
-            event.save()
-            participant = Participant(
-                user=request.user,
-                display_name=request.user.username,
-                event=event,
-                is_admin=True
-            )
-            participant.save()
-            return HttpResponseRedirect(reverse('detail_event', args=[event.id]))
-    else:
-        event_form = EventForm()
-
-    context = {
-        'form_action': form_action,
-        'event_form': event_form,
-        'back_button': back_button,
-    }
-
-    return render(request, 'event/event_create_form.html', context)
+    def form_valid(self, form):
+        response = super(EventCreateView, self).form_valid(form)
+        Participant.objects.create(
+            user=self.request.user,
+            event=self.object,
+            is_admin=True
+        )
+        return response
 
 
-def edit_event(request, event_id):
-
-    form_action = reverse('edit_event', args=[event_id])
-    back_button = reverse('detail_event', args=[event_id])
-
-    event = Event.objects.get(id=event_id)
-
-    if request.method == 'POST':
-        event_form = EventForm(request.POST, instance=event)
-        if event_form.is_valid():
-            event_form.save()
-            return HttpResponseRedirect(reverse('detail_event', args=[event_id]))
-    else:
-        event_form = EventForm(instance=event)
-
-    context = {
-        'form_action': form_action,
-        'event_form': event_form,
-        'back_button': back_button,
-    }
-
-    return render(request, 'event/event_edit_form.html', context)
+class EventUpdateView(UpdateView):
+    model = Event
+    template_name = 'event/event_edit_form.html'
+    fields = ['name', 'start', 'end']
 
 
-def delete_event(request, event_id):
-    event = Event.objects.get(id=event_id)
-    event.delete()
-
-    return HttpResponseRedirect(reverse('home'))
+class EventDeleteView(DeleteView):
+    model = Event
+    success_url = reverse_lazy('event-list')
 
 
-def detail_event(request, event_id):
+class EventDetailView(DetailView):
+    model = Event
+    template_name = 'event/event_detail.html'
 
-    event = Event.objects.get(id=event_id)
-    consuming_groups = event.event_consuming_groups.all()
-    participants = event.event_participants.all()
-    active_bills = event.event_bills.filter(is_active=True)
-    inactive_bills = event.event_bills.filter(is_active=False)
+    def get_context_data(self, **kwargs):
+        context = super(EventDetailView, self).get_context_data(**kwargs)
+        context.update({
+            'consuming_groups': self.object.event_consuming_groups.all(),
+            'participants': self.object.event_participants.all(),
+            'active_bills': self.object.event_bills.active_instances(),
+            'inactive_bills': self.object.event_bills.inactive_instances(),
+        })
+        return context
 
-    context = {
-        'event': event,
-        'consuming_groups': consuming_groups,
-        'participants': participants,
-        'active_bills': active_bills,
-        'inactive_bills': inactive_bills,
-    }
 
-    return render(request, 'event/event_detail.html', context)
+class EventListView(ListView):
+    context_object_name = 'events'
+    template_name = 'base/start.html'
+
+    def get_queryset(self):
+        participants = self.request.user.participant_set
+        if participants.exists():
+            return Event.objects.filter(event_participants__in=participants.all()).distinct()
+        return Event.objects.none()

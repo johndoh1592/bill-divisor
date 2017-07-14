@@ -8,11 +8,14 @@
             </div>
             <div class="modal-body">
                 <p>{% trans "Do you really want to delete" %}&nbsp;{{ event.get_description }}?</p>
-                <p class="text-danger">{% trans "Warning all event-participants, event-consuming-groups and event-bills will be delted!" %}</p>
+                <p class="text-danger">{% trans "Warning all participants, consuming groups and bills will be deleted!" %}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-warning" data-dismiss="modal">{% trans "Cancel" %}</button>
-                <a href="{{ event.get_absolute_remove_url }}" type="button" class="btn btn-danger">{% trans "Delete" %}</a>
+                <form role="form" method="post" action="{{ event.get_absolute_remove_url }}">
+                    {% csrf_token %}
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">{% trans "Cancel" %}</button>
+                    <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
+                </form>
             </div>
         </div>
     </div>
