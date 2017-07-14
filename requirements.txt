@@ -1,2 +1,9 @@
-Django==1.8.4
+Django==1.11.3
 django-widget-tweaks==1.4.1
+pytz==2017.2
+flake8
+flake8-docstrings
+flake8-import-order
+ipdb
+ipython  # optional for shell_plus
+pep8-naming
