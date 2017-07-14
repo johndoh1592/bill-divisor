@@ -13,5 +13,5 @@ class StartView(ListView):
     def get_queryset(self):
         participants = self.request.user.participant_set
         if participants.exists():
-            return Event.objects.filter(event_participants__in=participants.all())
+            return Event.objects.filter(event_participants__in=participants.all()).distinct()
         return Event.objects.none()
