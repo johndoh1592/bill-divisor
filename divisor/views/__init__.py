@@ -7,7 +7,7 @@ from .bill import create_bill, create_bill_participant, create_bill_position, de
 from .consuming_group import create_consuming_group, delete_consuming_group, delete_consuming_group_participant,\
     detail_consuming_group, edit_consuming_group
 from .event import EventCreateView, EventDeleteView, EventDetailView, EventListView, EventUpdateView
-from .participants import create_participant, delete_participant, detail_participant, edit_participant
+from .participant import create_participant, delete_participant, detail_participant, edit_participant
 
 __all__ = [
     'create_bill', 'create_bill_participant', 'create_bill_position', 'delete_bill', 'delete_bill_participant',
