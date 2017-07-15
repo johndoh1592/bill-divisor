@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 
 from decimal import Decimal, DivisionByZero, InvalidOperation, ROUND_HALF_UP
 
-from django.db import models
 from django.core.urlresolvers import reverse
+from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
