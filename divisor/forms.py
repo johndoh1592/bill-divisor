@@ -12,13 +12,6 @@ from django.utils.translation import ugettext as _
 from .models import Bill, BillConsumingGroupPosition, BillParticipant, ConsumingGroup, Event, Participant
 
 
-class EventForm(forms.ModelForm):
-
-    class Meta:
-        model = Event
-        fields = ['name', 'start', 'end']
-
-
 class ParticipantForm(forms.Form):
 
     event = None
