@@ -50,7 +50,7 @@ class EventDetailView(DetailView):
 
 class EventListView(ListView):
     context_object_name = 'events'
-    template_name = 'base/start.html'
+    template_name = 'event/event_list.html'
 
     def get_queryset(self):
         participants = self.request.user.participant_set
