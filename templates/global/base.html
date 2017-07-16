@@ -6,11 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Bootstrap 101 Template</title>
+    <title>{% block page_title %}{% endblock page_title %}</title>
 
     <!-- Bootstrap -->
     <link href="{% static "lib/css/bootstrap.min.css" %}" rel="stylesheet">
+    {% block extra_lib_css %}{% endblock extra_lib_css %}
     <link href="{% static "css/base.css" %}" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -22,9 +24,9 @@
   <body>
     {% block base_content %}
     {% endblock %}
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="{% static "lib/js/jquery.min.js" %}"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{% static "lib/js/bootstrap.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "lib/js/jquery.min.js" %}"></script>
+    {% block extra_lib_js %}{% endblock extra_lib_js %}
+    <script type="text/javascript" src="{% static "lib/js/bootstrap.min.js" %}"></script>
+    {% block extra_js %}{% endblock %}
   </body>
 </html>

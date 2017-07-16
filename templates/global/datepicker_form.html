@@ -1,0 +1,13 @@
+{% extends 'global/base.html' %}
+{% load static %}
+{% block extra_lib_css %}
+<link href="{% static "lib/css/bootstrap-datetimepicker.min.css" %}" rel="stylesheet">
+{% endblock extra_lib_css %}
+{% block extra_lib_js %}
+<script type="text/javascript" src="{% static "lib/js/moment/moment.min.js" %}"></script>
+<script type="text/javascript" src="{% static "lib/js/moment/locales/de.js" %}"></script>
+{% endblock extra_lib_js %}
+{% block extra_js %}
+<script type="text/javascript" src="{% static "lib/js/bootstrap-datetimepicker.min.js" %}"></script>
+<script type="text/javascript" src="{% static "js/forms.js" %}"></script>
+{% endblock extra_js %}
