@@ -39,11 +39,22 @@ class EventDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(EventDetailView, self).get_context_data(**kwargs)
+
+        if self.object.event_bills.exists():
+            active_bills = self.object.event_bills.active_instances()
+            inactive_bills = self.object.event_bills.inactive_instances()
+            new_event = False
+        else:
+            new_event = True
+            active_bills = []
+            inactive_bills = []
+
         context.update({
             'consuming_groups': self.object.event_consuming_groups.all(),
             'participants': self.object.event_participants.all(),
-            'active_bills': self.object.event_bills.active_instances(),
-            'inactive_bills': self.object.event_bills.inactive_instances(),
+            'new_event': new_event,
+            'active_bills': active_bills,
+            'inactive_bills': inactive_bills,
         })
         return context
 

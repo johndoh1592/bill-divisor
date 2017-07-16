@@ -1,0 +1,30 @@
+{% load i18n %}
+<div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingActiveBills">
+        <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseActiveBills" aria-expanded="{% if collapsed %}false{% else %}true{% endif %}" aria-controls="collapseActiveBills">
+                {% trans "Active bills" %}
+            </a>
+        </h4>
+    </div>
+    <div id="collapseActiveBills" class="panel-collapse collapse{% if not collapsed %} in{% endif %}" role="tabpanel" aria-labelledby="headingActiveBills">
+        <ul class="list-group">
+            {% for active_bill in active_bills %}
+                <li class="list-group-item">
+                    <a href="{{ active_bill.get_absolute_detail_url }}">{{ active_bill.get_name }}</a>
+                    <div class="pull-right">
+                        <a href="{{ active_bill.get_absolute_edit_url }}">{% trans "edit" %}</a>
+                        <span>&nbsp;&nbsp;</span>
+                        <a href="#bill{{ active_bill.id }}Modal" data-toggle="modal" data-target="#bill{{ active_bill.id }}Modal">
+                            {% trans "delete" %}
+                        </a>
+                    </div>
+                </li>
+                {% include "bill/_includes/remove_bill_modal.html" with bill=active_bill%}
+            {% endfor %}
+        </ul>
+        <div class="panel-footer">
+            <a  href="{% url 'create_bill' event_id=object.id %}" class="btn btn-success" role="button">{% trans "Create a new bill" %}</a>
+        </div>
+    </div>
+</div>

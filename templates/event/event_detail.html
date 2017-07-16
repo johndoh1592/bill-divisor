@@ -1,10 +1,42 @@
 {% extends "global/base_content.html" %}
 {% load i18n %}
-{% block base_content_title %}{{ object.name }}{% endblock %}
+{% block base_content_title %}{{ object.get_name }}<span class="pull-right">{{ object.get_duration }}</span>{% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-sm-12">
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                {% if not new_event %}
+                {% include 'event/_includes/active_bills_panel.html' %}
+                {% endif %}
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingParticipants">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseParticipants" aria-expanded="{% if new_event %}true{% else %}false{% endif %}" aria-controls="collapseParticipants">
+                                {% trans "Participants" %}
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseParticipants" class="panel-collapse collapse{% if new_event %} in{% endif %}" role="tabpanel" aria-labelledby="headingParticipants">
+                        <ul class="list-group">
+                            {% for participant in participants %}
+                                <li class="list-group-item">
+                                    <a href="{{ participant.get_absolute_detail_url }}">{{ participant.get_name }}</a>
+                                    <div class="pull-right">
+                                        <a href="{{ participant.get_absolute_edit_url }}">{% trans "edit" %}</a>
+                                        <span>&nbsp;&nbsp;</span>
+                                        <a href="#participant{{ participant.id }}Modal" data-toggle="modal" data-target="#participant{{ participant.id }}Modal">
+                                            {% trans "delete" %}
+                                        </a>
+                                    </div>
+                                </li>
+                                {% include "participant/_includes/remove_participant_modal.html" with participant=participant %}
+                            {% endfor %}
+                        </ul>
+                        <div class="panel-footer">
+                            <a  href="{% url 'create_participant' event_id=object.id %}" class="btn btn-success" role="button">{% trans "Create a new participant" %}</a>
+                        </div>
+                    </div>
+                </div>
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="headingConsumingGroups">
                         <h4 class="panel-title">
@@ -34,64 +66,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingParticipants">
-                        <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseParticipants" aria-expanded="false" aria-controls="collapseParticipants">
-                                {% trans "Participants" %}
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseParticipants" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingParticipants">
-                        <ul class="list-group">
-                            {% for participant in participants %}
-                                <li class="list-group-item">
-                                    <a href="{{ participant.get_absolute_detail_url }}">{{ participant.get_name }}</a>
-                                    <div class="pull-right">
-                                        <a href="{{ participant.get_absolute_edit_url }}">{% trans "edit" %}</a>
-                                        <span>&nbsp;&nbsp;</span>
-                                        <a href="#participant{{ participant.id }}Modal" data-toggle="modal" data-target="#participant{{ participant.id }}Modal">
-                                            {% trans "delete" %}
-                                        </a>
-                                    </div>
-                                </li>
-                                {% include "participant/_includes/remove_participant_modal.html" with participant=participant %}
-                            {% endfor %}
-                        </ul>
-                        <div class="panel-footer">
-                            <a  href="{% url 'create_participant' event_id=object.id %}" class="btn btn-success" role="button">{% trans "Create a new participant" %}</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingActiveBills">
-                        <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseActiveBills" aria-expanded="false" aria-controls="collapseActiveBills">
-                                {% trans "Active bills" %}
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseActiveBills" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingActiveBills">
-                        <ul class="list-group">
-                            {% for active_bill in active_bills %}
-                                <li class="list-group-item">
-                                    <a href="{{ active_bill.get_absolute_detail_url }}">{{ active_bill.get_name }}</a>
-                                    <div class="pull-right">
-                                        <a href="{{ active_bill.get_absolute_edit_url }}">{% trans "edit" %}</a>
-                                        <span>&nbsp;&nbsp;</span>
-                                        <a href="#bill{{ active_bill.id }}Modal" data-toggle="modal" data-target="#bill{{ active_bill.id }}Modal">
-                                            {% trans "delete" %}
-                                        </a>
-                                    </div>
-                                </li>
-                                {% include "bill/_includes/remove_bill_modal.html" with bill=active_bill%}
-                            {% endfor %}
-                        </ul>
-                        <div class="panel-footer">
-                            <a  href="{% url 'create_bill' event_id=object.id %}" class="btn btn-success" role="button">{% trans "Create a new bill" %}</a>
-                        </div>
-                    </div>
-                </div>
+                {% if new_event %}
+                {% include 'event/_includes/active_bills_panel.html' with collapsed=True %}
+                {% endif %}
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="headingInactiveBills">
                         <h4 class="panel-title">
