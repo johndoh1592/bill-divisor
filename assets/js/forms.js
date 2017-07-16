@@ -11,7 +11,7 @@ function initDatePicker($element, langCode, useCurrent, initialDate, $form, $inp
     }
     $element.datetimepicker(options);
     $form.on('submit', function () {
-        var selectedDate = element.data('DateTimePicker').date();
+        var selectedDate = $element.data('DateTimePicker').date();
         if (selectedDate){
             $input.attr('value', selectedDate.format('YYYY-MM-DD'))
         }
