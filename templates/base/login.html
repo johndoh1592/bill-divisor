@@ -8,34 +8,8 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">{% trans "Login" %}</h3>
                 </div>
-                <form class="form-horizontal" role="form" method="post" action="{% url "login" %}">
-                    <div class="panel-body">
-                        {% csrf_token %}
-                        {{ form.non_field_errors }}
-                        <div class="form-group">
-                            {{ form.username.errors }}
-                            <label class="control-label col-sm-2" for="{{ form.username.id_for_label }}">{% trans "Username" %}:</label>
-                            <div class="col-sm-10">
-                                {% render_field form.username class+="form-control" placeholder="Enter username or email" type="text" %}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            {{ form.password.errors }}
-                            <label class="control-label col-sm-2" for="{{ form.password.id_for_label }}">{% trans "Password" %}:</label>
-                            <div class="col-sm-10">
-                                {% render_field form.password class+="form-control" placeholder="Enter password" type="password" %}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <div class="pull-right">
-                                    <a href="{% url 'register' %}" type="button" class="btn btn-primary">{% trans "Register" %}</a>
-                                    <button type="submit" class="btn btn-success">{% trans "Login" %}</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                {% url 'login' as login_url %}
+                {% include 'base/_includes/login_form.html' with form_action=login_url %}
             </div>
         </div>
     </div>
