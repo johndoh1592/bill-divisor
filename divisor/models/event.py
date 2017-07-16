@@ -23,11 +23,16 @@ class Event(models.Model):
     def get_name(self):
         return self.name
 
-    def get_description(self):
-        return '{name} {start}{end}'.format(
-            name=self.get_name(),
+    def get_duration(self):
+        return '{start}{end}'.format(
             start=date(self.start, 'SHORT_DATE_FORMAT'),
             end=' - {}'.format(date(self.end, 'SHORT_DATE_FORMAT')) if self.end else ''
+        )
+
+    def get_description(self):
+        return '{name} {duration}'.format(
+            name=self.get_name(),
+            duration=self.get_duration()
         )
 
     def get_is_active(self):
