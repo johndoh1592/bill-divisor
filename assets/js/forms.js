@@ -1,5 +1,5 @@
 
-function initDatePicker(element, langCode, useCurrent, initialDate, $form, $input) {
+function initDatePicker($element, langCode, useCurrent, initialDate, $form, $input) {
     var options = {
         format: 'L',
         locale: langCode,
@@ -9,7 +9,7 @@ function initDatePicker(element, langCode, useCurrent, initialDate, $form, $inpu
         initialDate = moment(initialDate);
         options['defaultDate'] = initialDate;
     }
-    element.datetimepicker(options);
+    $element.datetimepicker(options);
     $form.on('submit', function () {
         var selectedDate = element.data('DateTimePicker').date();
         if (selectedDate){
